@@ -7,12 +7,14 @@ import { loginHandler, meHandler, registerHandler } from './auth.controller';
 import { loginSchema, registerSchema } from './auth.schema';
 import { Role } from '@prisma/client';
 
+import { authLimiter } from '../../middleware/rateLimiter';
+
 const router = Router();
 
-router.post('/login', validateBody(loginSchema), asyncHandler(loginHandler));
+router.post('/login', authLimiter, validateBody(loginSchema), asyncHandler(loginHandler));
 
 // Only an Admin can create new accounts — this is an internal ops tool, not public signup.
-router.post('/register', authenticate, authorize(Role.ADMIN), validateBody(registerSchema), asyncHandler(registerHandler));
+router.post('/register', authLimiter, authenticate, authorize(Role.ADMIN), validateBody(registerSchema), asyncHandler(registerHandler));
 
 router.get('/me', authenticate, asyncHandler(meHandler));
 
