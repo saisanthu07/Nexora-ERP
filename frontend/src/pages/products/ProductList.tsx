@@ -11,6 +11,7 @@ import { PaginationBar } from '../../components/shared/PaginationBar';
 import { ProductFormModal } from './ProductForm';
 import { useAuth } from '../../auth/AuthContext';
 import { Product } from '../../types';
+import { exportToCSV } from '../../utils/csvExporter';
 
 export function ProductList() {
   const { user } = useAuth();
@@ -42,11 +43,32 @@ export function ProductList() {
           <h2>Inventory Register</h2>
           <p>Stock levels across every warehouse, kept honest.</p>
         </div>
-        {canManage && (
-          <Button variant="brass" onClick={() => setModalProduct('new')}>
-            + Add Product
+        <div style={{ display: 'flex', gap: 10 }}>
+          <Button
+            variant="ghost"
+            onClick={() =>
+              exportToCSV(
+                (data?.items || []).map((p) => ({
+                  Name: p.name,
+                  SKU: p.sku,
+                  Category: p.category,
+                  Warehouse: p.warehouse,
+                  Price: p.price,
+                  Stock: p.stock,
+                  MinStock: p.minStock,
+                })),
+                'Inventory_Register'
+              )
+            }
+          >
+            📊 Export CSV
           </Button>
-        )}
+          {canManage && (
+            <Button variant="brass" onClick={() => setModalProduct('new')}>
+              + Add Product
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="toolbar">

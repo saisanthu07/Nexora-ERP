@@ -50,23 +50,32 @@ Engineered with atomic database transactions, 4-tier Role-Based Access Control (
 ### 📄 Concurrency-Safe Sales Challans & Invoicing
 - Multi-item sales orders with automated price/name/SKU snapshotting for historical record accuracy.
 - Track total order amount (₹) as well as total items quantity (`totalQuantity`).
-- **Invoice Export**: Clean, print-styled document layout utilizing native browser `window.print()` rendering with custom `@media print` rules.
+- **Direct PDF Invoice Download**: Direct client-side PDF document generation using `jsPDF` and `jspdf-autotable` with customized header, item tables, totals, and invoice metadata download (`Invoice_CH-XXXX.pdf`).
+
+### 📊 Operational Activity Feed & Data Export
+- **Dashboard System Audit Feed**: Live chronological activity log on the dashboard tracking sales confirmations, draft creations, and cancellations.
+- **CSV Data Exporter**: One-click PapaParse CSV data export on Customer Ledger and Inventory Register pages.
+
+### 🧪 Automated Test Suite
+- Backend Jest unit test suite (`backend/__tests__/validation.test.ts`) validating Zod schemas, numeric boundary safety, and payload sanity (`npm test`).
 
 ### 🔌 Standalone API Documentation
 - Includes a ready-to-import Postman Collection (`Nexora_ERP.postman_collection.json`) at the root level for testing Auth, Customers CRM, Products, and Challan endpoints.
 
 ---
 
-## 📌 Known Limitations & Architectural Assumptions
+## 📌 Assumptions Made & Known Limitations
 
-1. **Cloud Hosting Platform Choice**:
-   - Deployed on **Render** (Backend API), **Vercel** (Frontend SPA), and **Supabase** (PostgreSQL Database) instead of AWS. This leverages free-tier managed cloud infrastructure as permitted by the submission guidelines.
-2. **Invoice PDF Generation**:
-   - Invoice PDF export is implemented via browser print engine (`window.print()`) styled with CSS `@media print` rules rather than server-side headless Chromium PDF buffer generation (e.g. Puppeteer).
-3. **Session Revocation**:
-   - Uses stateless JWT tokens. Token invalidation occurs on expiry (`24h`) or client-side storage clearance rather than server-side Redis token blacklisting.
-4. **Rate Limiter Storage**:
-   - Rate limiters use in-memory storage (`express-rate-limit`). For multi-instance clustered server deployments, a shared Redis store (`rate-limit-redis`) can be attached.
+### 💡 Key Assumptions Made
+1. **Single Currency**: System assumes Indian Rupee (`₹` / `INR`) for pricing and invoicing transactions.
+2. **Single Primary Warehouse per Item**: Products belong to a designated primary warehouse location without multi-warehouse inventory transfer workflows.
+3. **No Direct Address Geocoding**: Customer addresses are stored as raw text strings without third-party geocoding API verification.
+4. **Follow-Up Reminders**: Follow-up dates are logged in the CRM register for sales team tracking without automated email notification dispatch.
+
+### ⚠️ Known Limitations & Scope Exclusions
+1. **Cloud Hosting Platform**: Deployed on **Render** (Backend API), **Vercel** (Frontend SPA), and **Supabase** (PostgreSQL Database) leveraging free-tier managed cloud infrastructure per submission guidelines.
+2. **Stateless JWT Tokens**: Session invalidation relies on standard token expiry (`24h`) or client-side storage clearance without a centralized Redis token blacklist.
+3. **Purchase Orders Module**: Focuses on Sales Challans, Customer CRM, and Stock Movements as specified in the primary functional requirements scope.
 
 ---
 

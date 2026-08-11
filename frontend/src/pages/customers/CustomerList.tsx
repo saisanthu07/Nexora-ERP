@@ -10,6 +10,7 @@ import { CustomerStatusBadge } from '../../components/shared/StatusBadge';
 import { PaginationBar } from '../../components/shared/PaginationBar';
 import { CustomerFormModal } from './CustomerForm';
 import { Customer } from '../../types';
+import { exportToCSV } from '../../utils/csvExporter';
 
 export function CustomerList() {
   const [search, setSearch] = useState('');
@@ -38,9 +39,32 @@ export function CustomerList() {
           <h2>Customer Ledger</h2>
           <p>Every account, every follow-up, in one leather-bound register.</p>
         </div>
-        <Button variant="brass" onClick={() => setModalCustomer('new')}>
-          + Add Customer
-        </Button>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <Button
+            variant="ghost"
+            onClick={() =>
+              exportToCSV(
+                (data?.items || []).map((c) => ({
+                  Name: c.name,
+                  Phone: c.phone,
+                  Email: c.email || '',
+                  Address: c.address || '',
+                  BusinessName: c.businessName || '',
+                  GST: c.gstNumber || '',
+                  Type: c.type,
+                  Status: c.status,
+                  FollowUpDate: c.followUpDate || '',
+                })),
+                'Customer_Ledger'
+              )
+            }
+          >
+            📊 Export CSV
+          </Button>
+          <Button variant="brass" onClick={() => setModalCustomer('new')}>
+            + Add Customer
+          </Button>
+        </div>
       </div>
 
       <div className="toolbar">

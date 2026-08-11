@@ -7,6 +7,7 @@ import { ChallanStatusBadge } from '../../components/shared/StatusBadge';
 import { StatusRocker } from '../../components/shared/StatusRocker';
 import { Button } from '../../components/ui/Button';
 import { useAuth } from '../../auth/AuthContext';
+import { generateChallanPDF } from '../../utils/pdfGenerator';
 
 export function ChallanDetail() {
   const { id } = useParams<{ id: string }>();
@@ -135,9 +136,14 @@ export function ChallanDetail() {
             )}
           </div>
         ) : (
-          <Button variant="felt" onClick={() => window.print()}>
-            📄 Export Invoice as PDF
-          </Button>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <Button variant="ghost" onClick={() => window.print()}>
+              🖨️ Print
+            </Button>
+            <Button variant="felt" onClick={() => generateChallanPDF(challan)}>
+              📥 Download PDF Invoice
+            </Button>
+          </div>
         )}
       </div>
 
