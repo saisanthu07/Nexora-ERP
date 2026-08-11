@@ -70,7 +70,7 @@ export function ChallanDetail() {
 
       <div className="page-header" style={{ marginTop: 12 }}>
         <div>
-          <h2 style={{ fontFamily: 'var(--font-mono)' }}>{challan.challanNumber}</h2>
+          <h2>{challan.challanNumber}</h2>
           <p>
             {challan.customer?.name} {challan.customer?.businessName ? `— ${challan.customer.businessName}` : ''}
           </p>
@@ -96,7 +96,7 @@ export function ChallanDetail() {
             {challan.items.map((item) => (
               <tr key={item.id}>
                 <td>{item.productNameSnapshot}</td>
-                <td style={{ fontFamily: 'var(--font-mono)' }}>{item.skuSnapshot}</td>
+                <td>{item.skuSnapshot}</td>
                 <td className="text-right">{item.quantity}</td>
                 <td className="text-right">₹{Number(item.priceSnapshot).toLocaleString('en-IN')}</td>
                 <td className="text-right">₹{Number(item.lineTotal).toLocaleString('en-IN')}</td>
@@ -131,17 +131,17 @@ export function ChallanDetail() {
             )}
             {canWrite && (
               <Button variant="felt" onClick={handleConfirm} disabled={confirming}>
-                {confirming ? 'Confirming…' : '✓ Confirm & Reduce Stock'}
+                {confirming ? 'Confirming…' : 'Confirm & Reduce Stock'}
               </Button>
             )}
           </div>
         ) : (
           <div style={{ display: 'flex', gap: 10 }}>
             <Button variant="ghost" onClick={() => window.print()}>
-              🖨️ Print
+              Print
             </Button>
             <Button variant="felt" onClick={() => generateChallanPDF(challan)}>
-              📥 Download PDF Invoice
+              Download PDF
             </Button>
           </div>
         )}

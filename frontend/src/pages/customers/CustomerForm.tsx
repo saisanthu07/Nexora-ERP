@@ -120,7 +120,7 @@ export function CustomerFormModal({
 
         {error && <p className="field-error">{error}</p>}
 
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--paper-300)' }}>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancel
           </Button>

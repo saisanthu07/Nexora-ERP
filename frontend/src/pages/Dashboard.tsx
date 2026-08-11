@@ -43,28 +43,30 @@ export function Dashboard() {
   const leadsCount = customers.filter((c) => c.status === 'LEAD').length;
   const activeCustomersCount = customers.filter((c) => c.status === 'ACTIVE').length;
 
+  const pageTitle = {
+    ADMIN:     'Operations Overview',
+    SALES:     'Sales Dashboard',
+    WAREHOUSE: 'Inventory & Stock',
+    ACCOUNTS:  'Accounts & Ledger',
+  }[role] ?? 'Dashboard';
+
   return (
     <div>
       <div className="page-header">
         <div>
-          <h2>
-            {role === 'ADMIN' && '👑 Executive & Operations Portal'}
-            {role === 'SALES' && '🎯 Sales CRM & Pipeline Dashboard'}
-            {role === 'WAREHOUSE' && '📦 Stock & Inventory Control Center'}
-            {role === 'ACCOUNTS' && '💼 Accounts & Ledger Workspace'}
-          </h2>
+          <h2>{pageTitle}</h2>
           <p>
-            Welcome back, <strong>{user?.name}</strong>! Tailored view for your <strong>{role}</strong> role.
+            Welcome back, <strong>{user?.name}</strong>. Showing your <strong>{role}</strong> view.
           </p>
         </div>
         {['ADMIN', 'SALES'].includes(role) && (
           <Link to="/challans/new" className="btn btn-primary">
-            + New Sales Challan
+            + New Challan
           </Link>
         )}
       </div>
 
-      {/* Role-tailored Stat Cards */}
+      {/* Stat Cards */}
       <div className="card-grid">
         {role === 'ADMIN' && (
           <>
@@ -97,7 +99,7 @@ export function Dashboard() {
             </div>
             <div className="stat-card">
               <div className="stat-label">New Leads</div>
-              <div className="stat-value" style={{ color: 'var(--brand-600)' }}>{leadsCount}</div>
+              <div className="stat-value" style={{ color: 'var(--accent)' }}>{leadsCount}</div>
             </div>
             <div className="stat-card">
               <div className="stat-label">My Sales Today</div>
@@ -113,7 +115,7 @@ export function Dashboard() {
         {role === 'WAREHOUSE' && (
           <>
             <div className="stat-card">
-              <div className="stat-label">Total SKUs Managed</div>
+              <div className="stat-label">Total SKUs</div>
               <div className="stat-value">{productsQuery.data?.meta?.total ?? '—'}</div>
             </div>
             <div className="stat-card">
@@ -124,7 +126,7 @@ export function Dashboard() {
             </div>
             <div className="stat-card">
               <div className="stat-label">Stock Out Today</div>
-              <div className="stat-value">{todayChallans.filter((c) => c.status === 'CONFIRMED').length} Orders</div>
+              <div className="stat-value">{todayChallans.filter((c) => c.status === 'CONFIRMED').length} orders</div>
             </div>
             <div className="stat-card">
               <div className="stat-label">Draft Orders Pending</div>
@@ -136,7 +138,7 @@ export function Dashboard() {
         {role === 'ACCOUNTS' && (
           <>
             <div className="stat-card">
-              <div className="stat-label">Total Customer Accounts</div>
+              <div className="stat-label">Total Accounts</div>
               <div className="stat-value">{customersQuery.data?.meta?.total ?? '—'}</div>
             </div>
             <div className="stat-card">
@@ -155,12 +157,12 @@ export function Dashboard() {
         )}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginTop: 24 }}>
-        {/* Left Section: Contextual Priority Table */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginTop: 8 }}>
+        {/* Left: contextual table */}
         <div>
           {role === 'WAREHOUSE' ? (
             <>
-              <div className="section-title">⚠️ Priority Low Stock Alerts</div>
+              <div className="section-title">Low Stock Alerts</div>
               <div className="ledger-wrap">
                 <table className="ledger">
                   <thead>
@@ -175,9 +177,9 @@ export function Dashboard() {
                     {(lowStockQuery.data?.items || []).slice(0, 7).map((p) => (
                       <tr key={p.id} onClick={() => (window.location.href = `/products/${p.id}`)}>
                         <td style={{ fontWeight: 600 }}>{p.name}</td>
-                        <td style={{ fontFamily: 'var(--font-mono)' }}>{p.sku}</td>
+                        <td>{p.sku}</td>
                         <td>{p.warehouse || 'Main WH'}</td>
-                        <td className="text-right" style={{ color: 'var(--crimson-600)', fontWeight: 700 }}>
+                        <td className="text-right" style={{ color: 'var(--danger-600)', fontWeight: 600 }}>
                           {p.stock} / ({p.minStock})
                         </td>
                       </tr>
@@ -185,7 +187,7 @@ export function Dashboard() {
                     {!lowStockQuery.isLoading && (lowStockQuery.data?.items || []).length === 0 && (
                       <tr>
                         <td colSpan={4} className="ledger-empty">
-                          All products are healthy above stock minimums!
+                          All products are above minimum stock.
                         </td>
                       </tr>
                     )}
@@ -195,7 +197,7 @@ export function Dashboard() {
             </>
           ) : role === 'SALES' ? (
             <>
-              <div className="section-title">👥 Follow-up Required & Recent Leads</div>
+              <div className="section-title">Recent Leads & Customers</div>
               <div className="ledger-wrap">
                 <table className="ledger">
                   <thead>
@@ -209,20 +211,20 @@ export function Dashboard() {
                   <tbody>
                     {customers.slice(0, 7).map((c) => (
                       <tr key={c.id} onClick={() => (window.location.href = `/customers/${c.id}`)}>
-                        <td style={{ fontWeight: 600 }}>{c.name}</td>
+                        <td style={{ fontWeight: 500 }}>{c.name}</td>
                         <td>{c.type}</td>
                         <td>
                           <span className={`badge badge-${c.status.toLowerCase()}`}>{c.status}</span>
                         </td>
-                        <td style={{ fontFamily: 'var(--font-mono)' }}>
-                          {c.followUpDate ? new Date(c.followUpDate).toLocaleDateString() : 'None'}
+                        <td style={{ color: 'var(--text-muted)' }}>
+                          {c.followUpDate ? new Date(c.followUpDate).toLocaleDateString() : '—'}
                         </td>
                       </tr>
                     ))}
                     {!customersQuery.isLoading && customers.length === 0 && (
                       <tr>
                         <td colSpan={4} className="ledger-empty">
-                          No customer leads yet. <Link to="/customers">Add customer →</Link>
+                          No customers yet. <Link to="/customers">Add one →</Link>
                         </td>
                       </tr>
                     )}
@@ -232,7 +234,7 @@ export function Dashboard() {
             </>
           ) : (
             <>
-              <div className="section-title">📋 Recent Sales Challans</div>
+              <div className="section-title">Recent Sales Challans</div>
               <div className="ledger-wrap">
                 <table className="ledger">
                   <thead>
@@ -246,7 +248,7 @@ export function Dashboard() {
                   <tbody>
                     {challans.map((c) => (
                       <tr key={c.id} onClick={() => (window.location.href = `/challans/${c.id}`)}>
-                        <td style={{ fontFamily: 'var(--font-mono)' }}>{c.challanNumber}</td>
+                        <td style={{ fontWeight: 500 }}>{c.challanNumber}</td>
                         <td>{c.customer?.name}</td>
                         <td>
                           <ChallanStatusBadge status={c.status} />
@@ -268,23 +270,36 @@ export function Dashboard() {
           )}
         </div>
 
-        {/* Right Section: System Activity / Audit Feed */}
+        {/* Right: Activity feed */}
         <div>
-          <div className="section-title">⚡ Operational Activity Feed</div>
+          <div className="section-title">Activity Feed</div>
           <div className="paper-card" style={{ maxHeight: 380, overflowY: 'auto' }}>
             {challans.map((c) => (
-              <div key={`audit-${c.id}`} className="note-item" style={{ marginBottom: 10, paddingBottom: 10, borderBottom: '1px solid var(--paper-300)' }}>
-                <span style={{ fontWeight: 600, color: 'var(--navy-900)' }}>
-                  {c.status === 'CONFIRMED' ? '✅ Stock Reduced & Confirmed' : c.status === 'DRAFT' ? '📝 Sales Draft Created' : '❌ Challan Cancelled'}
+              <div
+                key={`audit-${c.id}`}
+                className="note-item"
+                style={{ marginBottom: 10, paddingBottom: 10, borderBottom: '1px solid var(--border)' }}
+              >
+                <span style={{ fontWeight: 500, color: 'var(--text)' }}>
+                  {c.status === 'CONFIRMED'
+                    ? 'Stock reduced & confirmed'
+                    : c.status === 'DRAFT'
+                    ? 'Sales draft created'
+                    : 'Challan cancelled'}
                 </span>
-                <div>
-                  Challan <strong>{c.challanNumber}</strong> for {c.customer?.name || 'Customer'} (₹{Number(c.totalAmount).toLocaleString('en-IN')})
+                <div style={{ marginTop: 2 }}>
+                  Challan <strong>{c.challanNumber}</strong> for {c.customer?.name || 'Customer'} (₹
+                  {Number(c.totalAmount).toLocaleString('en-IN')})
                 </div>
-                <div className="note-meta">{new Date(c.createdAt).toLocaleString()} · By {c.createdBy?.name || 'System'}</div>
+                <div className="note-meta">
+                  {new Date(c.createdAt).toLocaleString()} · By {c.createdBy?.name || 'System'}
+                </div>
               </div>
             ))}
             {!recentChallansQuery.isLoading && challans.length === 0 && (
-              <div style={{ color: 'var(--paper-600)', fontStyle: 'italic' }}>No system activity recorded yet.</div>
+              <div style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: 'var(--text-sm)' }}>
+                No activity yet.
+              </div>
             )}
           </div>
         </div>
@@ -292,4 +307,3 @@ export function Dashboard() {
     </div>
   );
 }
-

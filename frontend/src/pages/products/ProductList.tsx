@@ -41,7 +41,7 @@ export function ProductList() {
       <div className="page-header">
         <div>
           <h2>Inventory Register</h2>
-          <p>Stock levels across every warehouse, kept honest.</p>
+          <p>Stock levels across every warehouse.</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           <Button
@@ -61,7 +61,7 @@ export function ProductList() {
               )
             }
           >
-            📊 Export CSV
+            Export CSV
           </Button>
           {canManage && (
             <Button variant="brass" onClick={() => setModalProduct('new')}>
@@ -115,7 +115,7 @@ export function ProductList() {
                     {p.name}
                   </Link>
                 </td>
-                <td style={{ fontFamily: 'var(--font-mono)' }}>{p.sku}</td>
+                <td>{p.sku}</td>
                 <td>{p.category}</td>
                 <td>{p.warehouse}</td>
                 <td className="text-right">₹{Number(p.price).toLocaleString('en-IN')}</td>

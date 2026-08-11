@@ -68,7 +68,7 @@ export function Login() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: showPassword ? 'var(--brass-500)' : 'var(--steel-500)',
+                  color: 'var(--slate-400)',
                   transition: 'color 0.15s ease',
                   zIndex: 2,
                 }}

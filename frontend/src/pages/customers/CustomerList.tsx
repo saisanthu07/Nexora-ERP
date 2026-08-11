@@ -37,7 +37,7 @@ export function CustomerList() {
       <div className="page-header">
         <div>
           <h2>Customer Ledger</h2>
-          <p>Every account, every follow-up, in one leather-bound register.</p>
+          <p>Every account and follow-up, in one place.</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           <Button
@@ -59,7 +59,7 @@ export function CustomerList() {
               )
             }
           >
-            📊 Export CSV
+            Export CSV
           </Button>
           <Button variant="brass" onClick={() => setModalCustomer('new')}>
             + Add Customer
@@ -114,7 +114,7 @@ export function CustomerList() {
                   </Link>
                 </td>
                 <td>{c.businessName || '—'}</td>
-                <td style={{ fontFamily: 'var(--font-mono)' }}>{c.phone}</td>
+                <td>{c.phone}</td>
                 <td>{c.type}</td>
                 <td>
                   <CustomerStatusBadge status={c.status} />

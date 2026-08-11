@@ -60,8 +60,8 @@ export function CustomerDetail() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: 11, color: 'var(--paper-600)', textTransform: 'uppercase' }}>Total Billed</div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--navy-900)' }}>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.03em' }}>Total Billed</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)' }}>
               ₹{totalSpent.toLocaleString('en-IN')}
             </div>
           </div>
@@ -121,7 +121,7 @@ export function CustomerDetail() {
 
       {/* Customer Sales Orders & Invoices History */}
       <div style={{ marginTop: 24 }}>
-        <div className="section-title">📦 Customer Sales Order History ({challans.length})</div>
+        <div className="section-title">Sales Order History ({challans.length})</div>
         <div className="ledger-wrap">
           <table className="ledger">
             <thead>
@@ -136,7 +136,7 @@ export function CustomerDetail() {
             <tbody>
               {challans.map((c: any) => (
                 <tr key={c.id} onClick={() => (window.location.href = `/challans/${c.id}`)}>
-                  <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{c.challanNumber}</td>
+                  <td style={{ fontWeight: 600 }}>{c.challanNumber}</td>
                   <td>{c.totalQuantity || c.items?.length || 0} items</td>
                   <td>
                     <ChallanStatusBadge status={c.status} />

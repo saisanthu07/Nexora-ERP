@@ -148,7 +148,7 @@ export function ChallanCreate() {
                         min="1"
                         value={line.quantity}
                         onChange={(e) => updateLine(index, { quantity: Number(e.target.value) })}
-                        style={overStock ? { borderColor: 'var(--rust-500)' } : undefined}
+                        style={overStock ? { borderColor: 'var(--danger-600)' } : undefined}
                       />
                       {overStock && (
                         <div className="field-error" style={{ marginTop: 4 }}>

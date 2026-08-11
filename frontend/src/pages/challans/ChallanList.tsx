@@ -48,7 +48,7 @@ export function ChallanList() {
               )
             }
           >
-            📊 Export CSV
+            Export CSV
           </Button>
           {canCreate && (
             <Button variant="brass" onClick={() => navigate('/challans/new')}>
@@ -89,7 +89,7 @@ export function ChallanList() {
           <tbody>
             {(data?.items || []).map((c) => (
               <tr key={c.id} onClick={() => navigate(`/challans/${c.id}`)}>
-                <td style={{ fontFamily: 'var(--font-mono)' }}>{c.challanNumber}</td>
+                <td>{c.challanNumber}</td>
                 <td>{c.customer?.name}</td>
                 <td>{c.items.length}</td>
                 <td className="text-right">₹{Number(c.totalAmount).toLocaleString('en-IN')}</td>
