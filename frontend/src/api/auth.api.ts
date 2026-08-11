@@ -20,3 +20,13 @@ export async function createUser(data: { name: string; email: string; password: 
   const res = await client.post<ApiSuccess<User>>('/auth/register', data);
   return res.data.data;
 }
+
+export async function updateUser(id: string, data: { name?: string; email?: string; password?: string; role?: string }) {
+  const res = await client.put<ApiSuccess<User>>(`/auth/users/${id}`, data);
+  return res.data.data;
+}
+
+export async function deleteUser(id: string) {
+  const res = await client.delete<ApiSuccess<void>>(`/auth/users/${id}`);
+  return res.data.data;
+}

@@ -23,3 +23,13 @@ export async function listUsersHandler(_req: Request, res: Response) {
   const users = await authService.listUsers();
   return sendSuccess(res, users);
 }
+
+export async function updateUserHandler(req: Request, res: Response) {
+  const result = await authService.updateUser(req.params.id, req.body);
+  return sendSuccess(res, result);
+}
+
+export async function deleteUserHandler(req: Request, res: Response) {
+  const result = await authService.deleteUser(req.params.id);
+  return sendSuccess(res, result);
+}
