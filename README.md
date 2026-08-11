@@ -15,19 +15,37 @@ Engineered with atomic database transactions, 4-tier Role-Based Access Control (
 
 </div>
 
+## 🌐 Live Deployment & Test Credentials
+
+> [!IMPORTANT]
+> **Live Demo Web Application**: [https://nexora-erp-iota.vercel.app/](https://nexora-erp-iota.vercel.app/)  
+> **Live REST API Service**: [https://nexora-erp-backend-4ukm.onrender.com](https://nexora-erp-backend-4ukm.onrender.com)  
+
+### 🔑 Test Credentials (All 4 System Roles)
+
+All pre-seeded demo accounts share the password: `Password123!`
+
+| Role | Email Address | Password | Privileges & Access Scope |
+| :--- | :--- | :--- | :--- |
+| 🛡️ **Admin** | `admin@demo.com` | `Password123!` | Full System Control (Users, CRM, Inventory, Sales, Cancellations, Audit Log) |
+| 💼 **Sales** | `sales@demo.com` | `Password123!` | Customer CRM, Interaction Notes, Create & Confirm Sales Challans |
+| 📦 **Warehouse** | `warehouse@demo.com` | `Password123!` | Product Management, Stock Audits & Stock Movements Register |
+| 📊 **Accounts** | `accounts@demo.com` | `Password123!` | Read-Only Financial Visibility across Customers, Inventory & Challans |
+
 ---
 
 ## 📋 Table of Contents
-1. [Key Features](#-key-features)
-2. [Technology Stack](#-technology-stack)
-3. [Security Architecture & Verification](#-security-architecture--verification)
-4. [Architecture & Concurrency Safety](#-architecture--concurrency-safety)
-5. [Repository Layout](#-repository-layout)
-6. [Quick Start (Local Setup)](#-quick-start-local-setup)
-7. [Environment Configuration](#-environment-configuration)
-8. [Pre-configured Demo Accounts](#-pre-configured-demo-accounts)
-9. [Database & RLS Setup](#-database--rls-setup)
-10. [Production Deployment Guide](#-production-deployment-guide)
+1. [Live Deployment & Test Credentials](#-live-deployment--test-credentials)
+2. [Key Features](#-key-features)
+3. [Technology Stack](#-technology-stack)
+4. [Security Architecture & Verification](#-security-architecture--verification)
+5. [Architecture & Concurrency Safety](#-architecture--concurrency-safety)
+6. [Repository Layout](#-repository-layout)
+7. [Quick Start (Local Setup)](#-quick-start-local-setup)
+8. [Environment Configuration](#-environment-configuration)
+9. [Pre-configured Demo Accounts](#-pre-configured-demo-accounts)
+10. [Database & RLS Setup](#-database--rls-setup)
+11. [Production Deployment Guide](#-production-deployment-guide)
 
 ---
 
@@ -273,17 +291,44 @@ This secures 8 database tables: `users`, `customers`, `notes`, `products`, `stoc
 
 ## 🌐 Production Deployment Guide
 
-### Deploying Backend to Render
-1. Create a **New Web Service** on Render and select your GitHub repository.
-2. Set **Root Directory**: `backend`
-3. Set **Runtime**: `Node`
-4. Set **Build Command**: `npm install && npm run build`
-5. Set **Start Command**: `npm start`
-6. Add Environment Variables (`DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`, `CORS_ORIGIN`).
+### 1. Database Setup (Supabase / Managed PostgreSQL)
+1. Provision a PostgreSQL instance (e.g. Supabase, Railway, Neon, AWS RDS).
+2. Obtain the transaction pooler connection string and direct connection string.
+3. Configure connection formats:
+   - **Transaction Pooler (`DATABASE_URL`)**:
+     `postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true`
+   - **Direct Connection (`DIRECT_URL`)**:
+     `postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:5432/postgres`
 
-### Deploying Frontend to Vercel
-1. Import your repository into Vercel.
-2. Select **Framework Preset**: `Vite`
-3. Set **Root Directory**: `frontend`
-4. Set **Environment Variable**: `VITE_API_URL=https://<your-render-backend-url>/api`
-5. Deploy.
+### 2. Deploying Backend to Render / Heroku / Railway
+1. Create a **New Web Service** and link your GitHub repository.
+2. Configure general service settings:
+   - **Root Directory**: `backend`
+   - **Runtime**: `Node`
+   - **Build Command**: `npm install && npx prisma generate && npm run build`
+   - **Start Command**: `npm start`
+3. Configure production Environment Variables:
+   - `DATABASE_URL`: Your pooled PostgreSQL connection string with `?pgbouncer=true`
+   - `DIRECT_URL`: Your direct connection string for Prisma migrations
+   - `JWT_SECRET`: A secure random cryptographic key (e.g. generated via `openssl rand -base64 32`)
+   - `JWT_EXPIRES_IN`: `24h`
+   - `NODE_ENV`: `production`
+   - `PORT`: `4000` (or `10000` default on Render)
+   - `CORS_ORIGIN`: `https://<your-frontend-domain>.vercel.app`
+4. Run Database Migrations & Seed data (via Shell / Deploy Command):
+   ```bash
+   npx prisma migrate deploy
+   npx ts-node prisma/seed.ts
+   npx ts-node prisma/enable_rls.ts
+   ```
+
+### 3. Deploying Frontend to Vercel / Netlify
+1. Import your GitHub repository into Vercel.
+2. Set configuration parameters:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+3. Add Environment Variable:
+   - `VITE_API_URL`: `https://nexora-erp-backend-4ukm.onrender.com/api`
+4. Click **Deploy**. Ensure frontend client connects seamlessly to backend API.
