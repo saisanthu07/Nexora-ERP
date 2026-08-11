@@ -5,6 +5,7 @@ export const createCustomerSchema = z.object({
   name: z.string().trim().min(2, 'Name must be at least 2 characters').max(150, 'Name too long'),
   phone: z.string().trim().min(7, 'Enter a valid phone number').max(20, 'Phone number too long'),
   email: z.string().trim().toLowerCase().email('Invalid email').max(255).optional().or(z.literal('')).transform((v: string | undefined) => (v === '' ? undefined : v)),
+  address: z.string().trim().max(300, 'Address too long').optional(),
   businessName: z.string().trim().max(200, 'Business name too long').optional(),
   gstNumber: z.string().trim().max(50, 'GST Number too long').optional(),
   type: z.nativeEnum(CustomerType).default(CustomerType.RETAIL),

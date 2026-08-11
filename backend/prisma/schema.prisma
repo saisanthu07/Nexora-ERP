@@ -55,6 +55,7 @@ model Customer {
   name         String
   phone        String
   email        String?
+  address      String?
   businessName String?
   gstNumber    String?
   type         CustomerType   @default(RETAIL)
@@ -132,6 +133,7 @@ model Challan {
   customer      Customer      @relation(fields: [customerId], references: [id])
   status        ChallanStatus @default(DRAFT)
   items         ChallanItem[]
+  totalQuantity Int           @default(0)
   totalAmount   Decimal       @default(0) @db.Decimal(12, 2)
   createdById   String
   createdBy     User          @relation(fields: [createdById], references: [id])

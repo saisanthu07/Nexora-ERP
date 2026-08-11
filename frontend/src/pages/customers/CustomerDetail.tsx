@@ -67,6 +67,9 @@ export function CustomerDetail() {
             <strong>Email:</strong> {customer.email || '—'}
           </p>
           <p>
+            <strong>Address:</strong> {customer.address || '—'}
+          </p>
+          <p>
             <strong>GST:</strong> {customer.gstNumber || '—'}
           </p>
           <p>

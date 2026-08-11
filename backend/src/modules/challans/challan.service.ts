@@ -67,8 +67,9 @@ async function buildLineItems(tx: Prisma.TransactionClient, items: { productId: 
   });
 
   const totalAmount = lineItems.reduce((sum, li) => sum + Number(li.lineTotal), 0);
+  const totalQuantity = lineItems.reduce((sum, li) => sum + li.quantity, 0);
 
-  return { lineItems, totalAmount };
+  return { lineItems, totalAmount, totalQuantity };
 }
 
 export async function createChallan(input: CreateChallanInput, userId: string) {
@@ -76,7 +77,7 @@ export async function createChallan(input: CreateChallanInput, userId: string) {
   if (!customer) throw ApiError.badRequest('Customer not found', 'INVALID_CUSTOMER');
 
   return prisma.$transaction(async (tx) => {
-    const { lineItems, totalAmount } = await buildLineItems(tx, input.items);
+    const { lineItems, totalAmount, totalQuantity } = await buildLineItems(tx, input.items);
     const challanNumber = await generateChallanNumber(tx);
 
     return tx.challan.create({
@@ -85,6 +86,7 @@ export async function createChallan(input: CreateChallanInput, userId: string) {
         customerId: input.customerId,
         createdById: userId,
         totalAmount,
+        totalQuantity,
         status: ChallanStatus.DRAFT,
         items: { create: lineItems },
       },
@@ -102,12 +104,13 @@ export async function updateChallan(id: string, input: UpdateChallanInput) {
 
   return prisma.$transaction(async (tx) => {
     if (input.items) {
-      const { lineItems, totalAmount } = await buildLineItems(tx, input.items);
+      const { lineItems, totalAmount, totalQuantity } = await buildLineItems(tx, input.items);
       await tx.challanItem.deleteMany({ where: { challanId: id } });
       await tx.challan.update({
         where: { id },
         data: {
           totalAmount,
+          totalQuantity,
           ...(input.customerId ? { customerId: input.customerId } : {}),
           items: { create: lineItems },
         },

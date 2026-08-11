@@ -24,6 +24,7 @@ export interface Customer {
   name: string;
   phone: string;
   email?: string | null;
+  address?: string | null;
   businessName?: string | null;
   gstNumber?: string | null;
   type: CustomerType;
@@ -79,9 +80,10 @@ export interface Challan {
   id: string;
   challanNumber: string;
   customerId: string;
-  customer?: { id: string; name: string; phone: string; businessName?: string | null };
+  customer?: { id: string; name: string; phone: string; businessName?: string | null; address?: string | null };
   status: ChallanStatus;
   items: ChallanItem[];
+  totalQuantity: number;
   totalAmount: string | number;
   createdById: string;
   createdBy?: { id: string; name: string };

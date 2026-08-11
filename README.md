@@ -49,11 +49,24 @@ Engineered with atomic database transactions, 4-tier Role-Based Access Control (
 
 ### 📄 Concurrency-Safe Sales Challans & Invoicing
 - Multi-item sales orders with automated price/name/SKU snapshotting for historical record accuracy.
-- **One-Click Invoice PDF Export**: Clean, print-styled document layout with custom `@media print` rules.
+- Track total order amount (₹) as well as total items quantity (`totalQuantity`).
+- **Invoice Export**: Clean, print-styled document layout utilizing native browser `window.print()` rendering with custom `@media print` rules.
 
-### 📱 Responsive Skeuomorphic Design
-- **Brushed-Steel & Walnut UI System**: Physical-office material styling with pressable buttons, cream ruled ledger paper, and brass status rocker controls.
-- **Mobile Responsive Drawer**: Animated slide-out mobile menu navigation with touch backdrop blur.
+### 🔌 Standalone API Documentation
+- Includes a ready-to-import Postman Collection (`Nexora_ERP.postman_collection.json`) at the root level for testing Auth, Customers CRM, Products, and Challan endpoints.
+
+---
+
+## 📌 Known Limitations & Architectural Assumptions
+
+1. **Cloud Hosting Platform Choice**:
+   - Deployed on **Render** (Backend API), **Vercel** (Frontend SPA), and **Supabase** (PostgreSQL Database) instead of AWS. This leverages free-tier managed cloud infrastructure as permitted by the submission guidelines.
+2. **Invoice PDF Generation**:
+   - Invoice PDF export is implemented via browser print engine (`window.print()`) styled with CSS `@media print` rules rather than server-side headless Chromium PDF buffer generation (e.g. Puppeteer).
+3. **Session Revocation**:
+   - Uses stateless JWT tokens. Token invalidation occurs on expiry (`24h`) or client-side storage clearance rather than server-side Redis token blacklisting.
+4. **Rate Limiter Storage**:
+   - Rate limiters use in-memory storage (`express-rate-limit`). For multi-instance clustered server deployments, a shared Redis store (`rate-limit-redis`) can be attached.
 
 ---
 

@@ -106,10 +106,18 @@ export function ChallanDetail() {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <div className="stat-label">Total Amount</div>
-          <div className="stat-value" style={{ fontSize: 28 }}>
-            ₹{Number(challan.totalAmount).toLocaleString('en-IN')}
+        <div style={{ display: 'flex', gap: 30, alignItems: 'center' }}>
+          <div>
+            <div className="stat-label">Total Quantity</div>
+            <div className="stat-value" style={{ fontSize: 24 }}>
+              {challan.totalQuantity ?? challan.items.reduce((acc, i) => acc + i.quantity, 0)} pcs
+            </div>
+          </div>
+          <div>
+            <div className="stat-label">Total Amount</div>
+            <div className="stat-value" style={{ fontSize: 28 }}>
+              ₹{Number(challan.totalAmount).toLocaleString('en-IN')}
+            </div>
           </div>
         </div>
 

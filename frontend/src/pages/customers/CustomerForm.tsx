@@ -20,6 +20,7 @@ export function CustomerFormModal({
     name: customer?.name || '',
     phone: customer?.phone || '',
     email: customer?.email || '',
+    address: customer?.address || '',
     businessName: customer?.businessName || '',
     gstNumber: customer?.gstNumber || '',
     type: (customer?.type || 'RETAIL') as CustomerType,
@@ -39,6 +40,7 @@ export function CustomerFormModal({
         ...form,
         followUpDate: form.followUpDate || undefined,
         email: form.email || undefined,
+        address: form.address || undefined,
       };
       if (isEdit && customer) {
         await updateCustomer(customer.id, payload);
@@ -75,6 +77,10 @@ export function CustomerFormModal({
             <Input value={form.businessName} onChange={(e) => setForm({ ...form, businessName: e.target.value })} />
           </Field>
         </div>
+
+        <Field label="Address" hint="Optional">
+          <Input value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} placeholder="Enter street address, city, state..." />
+        </Field>
 
         <div className="form-row">
           <Field label="GST Number" hint="Optional">
