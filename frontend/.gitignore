@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Production build output
+dist/
+
+# Local Vercel build folder
+.vercel/
+
+# Environment files & secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
