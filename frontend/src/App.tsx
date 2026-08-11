@@ -13,6 +13,7 @@ import { StockMovementLog } from './pages/products/StockMovementLog';
 import { ChallanList } from './pages/challans/ChallanList';
 import { ChallanCreate } from './pages/challans/ChallanCreate';
 import { ChallanDetail } from './pages/challans/ChallanDetail';
+import { UserList } from './pages/users/UserList';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -91,6 +92,15 @@ export default function App() {
                 element={
                   <ProtectedRoute roles={['ADMIN', 'SALES', 'ACCOUNTS', 'WAREHOUSE']}>
                     <ChallanDetail />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/users"
+                element={
+                  <ProtectedRoute roles={['ADMIN']}>
+                    <UserList />
                   </ProtectedRoute>
                 }
               />

@@ -10,10 +10,11 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { to: '/dashboard', label: 'Dashboard', icon: '◆' },
-  { to: '/customers', label: 'Customers', icon: '☰', roles: ['ADMIN', 'SALES', 'ACCOUNTS'] },
-  { to: '/products', label: 'Products', icon: '▣' },
-  { to: '/challans', label: 'Challans', icon: '§', roles: ['ADMIN', 'SALES', 'ACCOUNTS', 'WAREHOUSE'] },
+  { to: '/dashboard', label: 'Dashboard', icon: '📊' },
+  { to: '/customers', label: 'Customers CRM', icon: '👥', roles: ['ADMIN', 'SALES', 'ACCOUNTS'] },
+  { to: '/products', label: 'Products Catalog', icon: '📦' },
+  { to: '/challans', label: 'Sales Challans', icon: '📄', roles: ['ADMIN', 'SALES', 'ACCOUNTS', 'WAREHOUSE'] },
+  { to: '/users', label: 'User Directory', icon: '🔑', roles: ['ADMIN'] },
 ];
 
 interface SidebarProps {

@@ -18,3 +18,8 @@ export async function meHandler(req: Request, res: Response) {
   const result = await authService.getById(req.user.id);
   return sendSuccess(res, result);
 }
+
+export async function listUsersHandler(_req: Request, res: Response) {
+  const users = await authService.listUsers();
+  return sendSuccess(res, users);
+}

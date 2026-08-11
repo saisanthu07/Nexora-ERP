@@ -65,3 +65,10 @@ export async function getById(userId: string) {
   }
   return toPublicUser(user);
 }
+
+export async function listUsers() {
+  const users = await prisma.user.findMany({
+    orderBy: { createdAt: 'desc' },
+  });
+  return users.map(toPublicUser);
+}

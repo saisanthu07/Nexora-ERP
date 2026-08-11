@@ -12,7 +12,6 @@ Engineered with atomic database transactions, 4-tier Role-Based Access Control (
 [![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](https://react.dev/)
 [![Prisma](https://img.shields.io/badge/Prisma-5.22-2D3748.svg)](https://www.prisma.io/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791.svg)](https://supabase.com/)
-[![Security Score](https://img.shields.io/badge/Security_Score-10%2F10-success.svg)](#-security-hardening--compliance)
 
 </div>
 
@@ -21,7 +20,7 @@ Engineered with atomic database transactions, 4-tier Role-Based Access Control (
 ## 📋 Table of Contents
 1. [Key Features](#-key-features)
 2. [Technology Stack](#-technology-stack)
-3. [Security Hardening & Compliance (10/10 Score)](#-security-hardening--compliance)
+3. [Security Architecture & Verification](#-security-architecture--verification)
 4. [Architecture & Concurrency Safety](#-architecture--concurrency-safety)
 5. [Repository Layout](#-repository-layout)
 6. [Quick Start (Local Setup)](#-quick-start-local-setup)
@@ -91,22 +90,22 @@ Engineered with atomic database transactions, 4-tier Role-Based Access Control (
 
 ---
 
-## 🛡️ Security Hardening & Compliance
+## 🛡️ Security Architecture & Verification
 
-This platform achieves a **10 / 10** Security Rating across all core metrics:
+Security-focused implementation using JWT authentication, RBAC, Zod input validation, rate limiting, Helmet security headers, and transactional inventory operations:
 
 ```text
-┌──────────────────────────────────────┬─────────┬────────────────────────────────────────────────────────┐
-│ Security Control Dimension           │ Score   │ Implementation Guarantee                              │
-├──────────────────────────────────────┼─────────┼────────────────────────────────────────────────────────┤
-│ DDoS & Brute-Force Protection        │ 10 / 10 │ Compound (IP + UserAgent + Email) Key Lockout Limiter   │
-│ Input & Payload Validation           │ 10 / 10 │ Zod schema bounds, max length caps & character regex   │
-│ HTTP Security & Headers              │ 10 / 10 │ Helmet HSTS (1yr), strict CSP, Permissions-Policy      │
-│ Database Access Security (RLS)       │ 10 / 10 │ Supabase Row Level Security enabled across 8 tables    │
-│ Authentication & Cryptography        │ 10 / 10 │ Bcrypt password hashing (salt 10) & signed JWT tokens  │
-│ Secrets & Credential Protection      │ 10 / 10 │ Zod environment validation & isolated .gitignore rules  │
-│ Inventory Concurrency Integrity      │ 10 / 10 │ Atomic database transaction with row locks FOR UPDATE │
-└──────────────────────────────────────┴─────────┴────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────┬────────────────────────────────────────────────────────┐
+│ Security Control Dimension           │ Implementation Detail                                  │
+├──────────────────────────────────────┼────────────────────────────────────────────────────────┤
+│ DDoS & Brute-Force Protection        │ Compound (IP + UserAgent + Email) Key Lockout Limiter   │
+│ Input & Payload Validation           │ Zod schema bounds, max length caps & character regex   │
+│ HTTP Security & Headers              │ Helmet HSTS (1yr), strict CSP, Permissions-Policy      │
+│ Database Access Security (RLS)       │ Supabase Row Level Security enabled across 8 tables    │
+│ Authentication & Cryptography        │ Bcrypt password hashing (salt 10) & signed JWT tokens  │
+│ Secrets & Credential Protection      │ Zod environment validation & isolated .gitignore rules  │
+│ Inventory Concurrency Integrity      │ Atomic database transaction with row locks FOR UPDATE │
+└──────────────────────────────────────┴────────────────────────────────────────────────────────┘
 ```
 
 ---
