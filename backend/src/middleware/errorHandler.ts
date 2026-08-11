@@ -13,9 +13,11 @@ export function errorHandler(err: unknown, req: Request, res: Response, _next: N
   // eslint-disable-next-line no-console
   console.error('[UNHANDLED ERROR]', err);
 
+  const errorMessage = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+
   return res.status(500).json({
     success: false,
-    error: { code: 'INTERNAL_ERROR', message: 'Something went wrong. Please try again.' },
+    error: { code: 'INTERNAL_ERROR', message: errorMessage },
   });
 }
 
