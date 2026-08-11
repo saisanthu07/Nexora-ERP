@@ -22,6 +22,6 @@ if (!parsed.success) {
 
 export const env = {
   ...parsed.data,
-  PORT: parseInt(parsed.data.PORT, 10),
+  PORT: parseInt(process.env.PORT || parsed.data.PORT, 10),
   CORS_ORIGINS: parsed.data.CORS_ORIGIN.split(',').map((o) => o.trim()),
 };
