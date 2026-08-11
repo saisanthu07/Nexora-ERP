@@ -14,6 +14,8 @@ import { ChallanList } from './pages/challans/ChallanList';
 import { ChallanCreate } from './pages/challans/ChallanCreate';
 import { ChallanDetail } from './pages/challans/ChallanDetail';
 import { UserList } from './pages/users/UserList';
+import { Terms } from './pages/Terms';
+import { Privacy } from './pages/Privacy';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +43,8 @@ export default function App() {
           />
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
 
             <Route
               element={

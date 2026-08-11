@@ -102,6 +102,12 @@ export function Login() {
           admin@demo.com · sales@demo.com<br />
           warehouse@demo.com · accounts@demo.com
         </div>
+        
+        <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '12px', color: 'var(--text-muted)' }}>
+          By signing in, you agree to our{' '}
+          <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
+          <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+        </div>
       </div>
     </div>
   );

@@ -87,7 +87,12 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         ))}
 
         <div className="sidebar-footer">
-          <span className="field-hint">v1.0 · Nexora ERP</span>
+          <span className="field-hint" style={{ display: 'block', marginBottom: '8px' }}>v1.0 · Nexora ERP</span>
+          <div style={{ display: 'flex', gap: '8px', fontSize: '11px' }}>
+            <a href="/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)' }}>Terms</a>
+            <span style={{ color: 'var(--border)' }}>|</span>
+            <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)' }}>Privacy</a>
+          </div>
         </div>
       </aside>
     </>
