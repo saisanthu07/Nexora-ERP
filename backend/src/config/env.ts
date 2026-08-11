@@ -8,7 +8,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(10, 'JWT_SECRET must be at least 10 characters'),
   JWT_EXPIRES_IN: z.string().default('24h'),
   PORT: z.string().optional(),
-  CORS_ORIGIN: z.string().default('http://localhost:5173'),
+  CORS_ORIGIN: z.string().default('https://nexora-erp-iota.vercel.app,http://localhost:5173,*'),
   NODE_ENV: z.string().default('development'),
 });
 
