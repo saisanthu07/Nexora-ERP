@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { addNote, getCustomer } from '../../api/customers.api';
-import { CustomerStatusBadge } from '../../components/shared/StatusBadge';
+import { CustomerStatusBadge, ChallanStatusBadge } from '../../components/shared/StatusBadge';
 import { Button } from '../../components/ui/Button';
 import { Textarea } from '../../components/ui/FormControls';
 
@@ -43,6 +43,10 @@ export function CustomerDetail() {
     );
   }
 
+  const challans = (customer as any).challans || [];
+  const confirmedChallans = challans.filter((c: any) => c.status === 'CONFIRMED');
+  const totalSpent = confirmedChallans.reduce((sum: number, c: any) => sum + Number(c.totalAmount || 0), 0);
+
   return (
     <div>
       <Link to="/customers" style={{ fontSize: 13 }}>
@@ -54,12 +58,20 @@ export function CustomerDetail() {
           <h2>{customer.name}</h2>
           <p>{customer.businessName || 'No business name on file'}</p>
         </div>
-        <CustomerStatusBadge status={customer.status} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontSize: 11, color: 'var(--paper-600)', textTransform: 'uppercase' }}>Total Billed</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--navy-900)' }}>
+              ₹{totalSpent.toLocaleString('en-IN')}
+            </div>
+          </div>
+          <CustomerStatusBadge status={customer.status} />
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         <div className="paper-card">
-          <div className="section-title">Profile</div>
+          <div className="section-title">Profile Info</div>
           <p>
             <strong>Phone:</strong> {customer.phone}
           </p>
@@ -73,7 +85,7 @@ export function CustomerDetail() {
             <strong>GST:</strong> {customer.gstNumber || '—'}
           </p>
           <p>
-            <strong>Type:</strong> {customer.type}
+            <strong>Customer Type:</strong> {customer.type}
           </p>
           <p>
             <strong>Follow-up date:</strong>{' '}
@@ -82,7 +94,7 @@ export function CustomerDetail() {
         </div>
 
         <div className="paper-card">
-          <div className="section-title">Follow-up Notes</div>
+          <div className="section-title">Follow-up Notes & Interactions</div>
           <form onSubmit={handleAddNote} style={{ marginBottom: 14 }}>
             <Textarea
               rows={2}
@@ -95,7 +107,7 @@ export function CustomerDetail() {
             </Button>
           </form>
 
-          <div className="notes-list">
+          <div className="notes-list" style={{ maxHeight: 220, overflowY: 'auto' }}>
             {(customer.notes || []).map((n) => (
               <div className="note-item" key={n.id}>
                 {n.content}
@@ -106,6 +118,47 @@ export function CustomerDetail() {
           </div>
         </div>
       </div>
+
+      {/* Customer Sales Orders & Invoices History */}
+      <div style={{ marginTop: 24 }}>
+        <div className="section-title">📦 Customer Sales Order History ({challans.length})</div>
+        <div className="ledger-wrap">
+          <table className="ledger">
+            <thead>
+              <tr>
+                <th>Challan #</th>
+                <th>Items Count</th>
+                <th>Status</th>
+                <th>Created Date</th>
+                <th className="text-right">Total Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {challans.map((c: any) => (
+                <tr key={c.id} onClick={() => (window.location.href = `/challans/${c.id}`)}>
+                  <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{c.challanNumber}</td>
+                  <td>{c.totalQuantity || c.items?.length || 0} items</td>
+                  <td>
+                    <ChallanStatusBadge status={c.status} />
+                  </td>
+                  <td>{new Date(c.createdAt).toLocaleDateString()}</td>
+                  <td className="text-right" style={{ fontWeight: 700 }}>
+                    ₹{Number(c.totalAmount).toLocaleString('en-IN')}
+                  </td>
+                </tr>
+              ))}
+              {challans.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="ledger-empty">
+                    No sales orders generated for this customer yet.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }
+

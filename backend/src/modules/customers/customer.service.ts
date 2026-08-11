@@ -41,7 +41,10 @@ export async function listCustomers(params: ListParams) {
 export async function getCustomerById(id: string) {
   const customer = await prisma.customer.findUnique({
     where: { id },
-    include: { notes: { orderBy: { createdAt: 'desc' } } },
+    include: {
+      notes: { orderBy: { createdAt: 'desc' } },
+      challans: { orderBy: { createdAt: 'desc' }, include: { items: true } },
+    },
   });
   if (!customer) throw ApiError.notFound('Customer not found');
   return customer;

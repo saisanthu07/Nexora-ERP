@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 
 export function Modal({
   title,
@@ -11,7 +12,7 @@ export function Modal({
   children: ReactNode;
   wide?: boolean;
 }) {
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div
         className="modal-panel"
@@ -26,6 +27,7 @@ export function Modal({
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

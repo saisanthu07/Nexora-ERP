@@ -58,8 +58,8 @@ export function CustomerFormModal({
   }
 
   return (
-    <Modal title={isEdit ? 'Edit Customer' : 'Add Customer'} onClose={onClose}>
-      <form onSubmit={handleSubmit}>
+    <Modal title={isEdit ? 'Edit Customer' : 'Add Customer'} onClose={onClose} wide>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div className="form-row">
           <Field label="Full Name">
             <Input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
@@ -96,7 +96,7 @@ export function CustomerFormModal({
         </div>
 
         <div className="form-row">
-          <Field label="Type">
+          <Field label="Customer Type">
             <Select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value as CustomerType })}>
               <option value="RETAIL">Retail</option>
               <option value="WHOLESALE">Wholesale</option>
@@ -113,14 +113,14 @@ export function CustomerFormModal({
         </div>
 
         {!isEdit && (
-          <Field label="Initial Note" hint="Optional — e.g. how this lead came in">
+          <Field label="Initial Note" hint="Optional">
             <Textarea rows={2} value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
           </Field>
         )}
 
         {error && <p className="field-error">{error}</p>}
 
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 8 }}>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--paper-300)' }}>
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancel
           </Button>
