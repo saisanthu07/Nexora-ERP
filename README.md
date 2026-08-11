@@ -13,7 +13,6 @@ Featuring role-based access control (RBAC), stock-concurrency control, customer 
 ![React](https://img.shields.io/badge/React-18.3-61dafb.svg)
 ![Prisma](https://img.shields.io/badge/Prisma-5.22-2D3748.svg)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 </div>
 
@@ -234,7 +233,7 @@ This enforces Row Level Security (RLS) across all 8 core tables (`users`, `custo
 1. Create a new **Web Service** on Render and link your repository.
 2. Root Directory: `backend`
 3. Build Command: `npm install && npm run build`
-4. Start Command: `npm run prisma:deploy && npm start`
+4. Start Command: `npm start`
 5. Set Environment Variables (`DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`, `CORS_ORIGIN`).
 
 ### Frontend on Vercel
@@ -252,7 +251,4 @@ The repository includes a GitHub Actions pipeline ([`.github/workflows/deploy.ym
 - **Stage 2**: Triggers automated deployment to Render API via deploy webhook.
 - **Stage 3**: Deploys frontend SPA to Vercel Production environment.
 
----
 
-## 📜 License
-Distributed under the MIT License. See `LICENSE` for more information.
