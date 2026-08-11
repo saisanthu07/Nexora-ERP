@@ -6,58 +6,58 @@
    ========================================================================== */
 
 :root {
-  /* --- materials --- */
-  --steel-100: #e4e7ea;
-  --steel-200: #c9ced3;
-  --steel-300: #a7adb4;
-  --steel-400: #868d95;
-  --steel-500: #656d76;
-  --steel-600: #4b525a;
-  --steel-700: #363c42;
+  /* --- materials & luxury palette --- */
+  --steel-100: #eef2f6;
+  --steel-200: #d0d7de;
+  --steel-300: #a3acb9;
+  --steel-400: #768192;
+  --steel-500: #546070;
+  --steel-600: #3b4654;
+  --steel-700: #242c37;
 
-  --walnut-300: #7a5c41;
-  --walnut-500: #4a3728;
-  --walnut-700: #2e2015;
-  --walnut-900: #1c130c;
+  --walnut-300: #8c6a4e;
+  --walnut-500: #594231;
+  --walnut-700: #36261b;
+  --walnut-900: #20140c;
 
-  --paper-100: #faf6ec;
-  --paper-200: #f2ead6;
-  --paper-300: #e6d9b8;
-  --paper-ruled: #d8c79c;
+  --paper-100: #fcfaf5;
+  --paper-200: #f5eedc;
+  --paper-300: #e9debf;
+  --paper-ruled: #dbcc9e;
 
-  --navy-500: #24333c;
-  --navy-600: #1a262d;
-  --navy-700: #121b20;
+  --navy-500: #1e2c35;
+  --navy-600: #141f26;
+  --navy-700: #0d151a;
 
-  --brass-300: #ecc888;
-  --brass-500: #c8963e;
-  --brass-600: #a67628;
-  --brass-700: #7a5518;
+  --brass-300: #f3d498;
+  --brass-500: #d49e35;
+  --brass-600: #b07d20;
+  --brass-700: #855b11;
 
-  --felt-500: #3f5d4d;
-  --felt-600: #2f4739;
+  --felt-500: #38644e;
+  --felt-600: #274737;
 
-  --rust-500: #a3402f;
-  --rust-600: #832f21;
+  --rust-500: #b54736;
+  --rust-600: #913324;
 
-  --ink: #241d16;
+  --ink: #1f1a14;
   --ink-soft: #4a4137;
 
-  /* --- type --- */
-  --font-display: 'Roboto Slab', Georgia, serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  /* --- typography --- */
+  --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
 
-  /* --- elevation tokens (embossed / pressed) --- */
-  --emboss-raised: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 -2px 4px rgba(0, 0, 0, 0.18) inset,
-    0 3px 6px rgba(0, 0, 0, 0.28), 0 1px 1px rgba(0, 0, 0, 0.2);
-  --emboss-pressed: 0 2px 5px rgba(0, 0, 0, 0.35) inset, 0 1px 0 rgba(255, 255, 255, 0.15) inset;
-  --panel-shadow: 0 10px 24px rgba(18, 15, 10, 0.35), 0 2px 6px rgba(18, 15, 10, 0.25);
-  --card-shadow: 0 6px 16px rgba(36, 29, 22, 0.14), 0 1px 3px rgba(36, 29, 22, 0.12);
+  /* --- elevation tokens --- */
+  --emboss-raised: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 -2px 5px rgba(0, 0, 0, 0.15) inset,
+    0 4px 12px rgba(18, 15, 10, 0.22), 0 1px 3px rgba(0, 0, 0, 0.15);
+  --emboss-pressed: 0 3px 6px rgba(0, 0, 0, 0.35) inset, 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  --panel-shadow: 0 16px 36px rgba(18, 15, 10, 0.38), 0 4px 10px rgba(18, 15, 10, 0.22);
+  --card-shadow: 0 8px 24px rgba(36, 29, 22, 0.12), 0 2px 6px rgba(36, 29, 22, 0.08);
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
 }
 
 * {
