@@ -6,9 +6,11 @@ export const apiLimiter = rateLimit({
   max: 100,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { keyGeneratorIpFallback: false },
   keyGenerator: (req) => {
     // Combine IP + User-Agent to prevent IP-spoofing bypasses
-    return `${req.ip}-${req.headers['user-agent'] || ''}`;
+    const clientIp = req.ip || req.socket.remoteAddress || 'unknown';
+    return `${clientIp}-${req.headers['user-agent'] || ''}`;
   },
   message: {
     success: false,
@@ -26,10 +28,12 @@ export const authLimiter = rateLimit({
   skipSuccessfulRequests: true, // Only count FAILED login attempts for account lockout
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { keyGeneratorIpFallback: false },
   keyGenerator: (req) => {
-    // Rate limit per IP + target email address to block distributed credential stuffing
+    // Rate limit per IP + target email address to block credential stuffing
+    const clientIp = req.ip || req.socket.remoteAddress || 'unknown';
     const targetEmail = req.body?.email ? String(req.body.email).toLowerCase().trim() : '';
-    return `${req.ip}-${targetEmail}`;
+    return `${clientIp}-${targetEmail}`;
   },
   message: {
     success: false,
