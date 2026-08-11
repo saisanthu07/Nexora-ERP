@@ -7,6 +7,7 @@ import { Select } from '../../components/ui/FormControls';
 import { ChallanStatusBadge } from '../../components/shared/StatusBadge';
 import { PaginationBar } from '../../components/shared/PaginationBar';
 import { useAuth } from '../../auth/AuthContext';
+import { exportToCSV } from '../../utils/csvExporter';
 
 export function ChallanList() {
   const { user } = useAuth();
@@ -28,11 +29,33 @@ export function ChallanList() {
           <h2>Sales Challans</h2>
           <p>Draft, confirm, and track every dispatch document.</p>
         </div>
-        {canCreate && (
-          <Button variant="brass" onClick={() => navigate('/challans/new')}>
-            + Create Challan
+        <div style={{ display: 'flex', gap: 10 }}>
+          <Button
+            variant="ghost"
+            onClick={() =>
+              exportToCSV(
+                (data?.items || []).map((c) => ({
+                  ChallanNumber: c.challanNumber,
+                  Customer: c.customer?.name || '',
+                  ItemsCount: c.items.length,
+                  TotalQuantity: c.totalQuantity ?? c.items.reduce((acc, i) => acc + i.quantity, 0),
+                  TotalAmount: c.totalAmount,
+                  Status: c.status,
+                  CreatedBy: c.createdBy?.name || '',
+                  CreatedAt: c.createdAt,
+                })),
+                'Sales_Challans_Register'
+              )
+            }
+          >
+            📊 Export CSV
           </Button>
-        )}
+          {canCreate && (
+            <Button variant="brass" onClick={() => navigate('/challans/new')}>
+              + Create Challan
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="toolbar">
